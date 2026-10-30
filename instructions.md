@@ -6,7 +6,7 @@
 
 ## What you get on StartOS
 
-Seerr works with a Jellyfin server, either on this StartOS or on another one. Anyone with a Seerr account can browse every movie and TV show on TMDB and request what they want. You approve requests, and Seerr marks a request available once the title shows up in a Jellyfin library. Seerr doesn't download anything itself: you add the requested title to Jellyfin.
+Seerr works with a Jellyfin server, either on this StartOS or on another one. Anyone with a Seerr account can browse every movie and TV show on TMDB and request what they want. You approve requests, and Seerr marks a request available once the title shows up in a Jellyfin library. Seerr doesn't download anything itself. With Radarr (movies) or Sonarr (TV) on this server, it sends approved requests to them to download; without them, you add the requested title to Jellyfin yourself.
 
 ## Getting set up
 
@@ -39,6 +39,16 @@ New users can request titles, and their requests wait for your approval. Change 
 
 Signing in with a Jellyfin account needs Jellyfin running. For Jellyfin on another server, the **Jellyfin** health check on Seerr's page shows whether Seerr can reach it. To have a way in without Jellyfin, open your profile's **Settings → Password** and set a Seerr password. You can then sign in with **Use your Seerr account**, using your email address, or your Jellyfin username if you haven't added an email address.
 
+### Sending requests to Radarr and Sonarr
+
+1. Install Radarr, Sonarr or both, and finish their setup, including a library folder under **Settings → Media Management → Root Folders** in each.
+2. In Jellyfin, add a library for each of those folders: **Movies** for Radarr's, **Shows** for Sonarr's. Then switch each new library on in Seerr, as under **New Jellyfin libraries** below.
+3. Run **Connect Radarr and Sonarr** and tick the apps to connect.
+
+Approved requests then go straight to the app, which finds and downloads the title and moves it into its library folder. Seerr marks the request available once Jellyfin's next library scan finds it. Jellyfin scans every 12 hours; to pick a download up sooner, run **Scan All Libraries** in Jellyfin's dashboard.
+
+Each app gets the HD-1080p quality profile (or its first) and its first library folder. Change them under **Settings → Services** in Seerr. To stop sending requests to an app, run **Connect Radarr and Sonarr** again and untick it; what it already received stays in the app.
+
 ### Getting notified about requests
 
 - **ntfy**: install ntfy, then run **Connect ntfy** with a topic name. Seerr publishes to that topic whenever a request needs your approval or is approved automatically. In ntfy, give your own ntfy user read access to the topic, then subscribe to it in the ntfy app. **Disconnect ntfy** stops it.
@@ -53,6 +63,6 @@ A library you add to Jellyfin later stays off in Seerr until you open **Settings
 ## Limitations
 
 - Email settings come from **Configure SMTP**. Changes made under **Settings → Notifications → Email** in Seerr are replaced the next time Seerr starts.
-- Seerr can't send requests to Radarr or Sonarr on this server, because neither is available for StartOS.
+- **Connect Radarr and Sonarr** connects the apps on this server only. Radarr or Sonarr elsewhere, or a second one for 4K, are added under **Settings → Services** in Seerr.
 - Jellyfin on another server can't be reached by a `.local` name or a Tor address.
 - Uninstalling Seerr deletes the API key it created in Jellyfin. If Jellyfin can't be reached at the time, the key stays: delete the API key named **Seerr** in Jellyfin's dashboard.

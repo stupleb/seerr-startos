@@ -1,6 +1,13 @@
 import { FileHelper, z } from '@start9labs/start-sdk'
 import { sdk } from '../sdk'
 
+const arrServer = z.looseObject({
+  id: z.number(),
+  hostname: z.string(),
+  port: z.number(),
+  apiKey: z.string(),
+})
+
 export const settingsJson = FileHelper.json(
   { base: sdk.volumes.main, subpath: './settings.json' },
   z.looseObject({
@@ -19,6 +26,9 @@ export const settingsJson = FileHelper.json(
       apiKey: z.string().catch(''),
       serverId: z.string().catch(''),
     }),
+    // No .catch: a fallback would be written back, deleting every server.
+    radarr: z.array(arrServer).optional(),
+    sonarr: z.array(arrServer).optional(),
     notifications: z.looseObject({
       agents: z.looseObject({
         email: z.looseObject({

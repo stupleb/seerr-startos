@@ -1,14 +1,20 @@
+import { readFile } from 'node:fs/promises'
 import { settingsJson } from './fileModels/settings.json'
 import { storeJson } from './fileModels/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
 import {
+  ArrId,
+  arrBridgeAddress,
+  arrIds,
+  arrKeyFile,
   configDir,
   emailAgent,
   jellyfinBridgeAddress,
   jellyfinCaFile,
   jellyfinServerId,
   jellyfinUrl,
+  mountArr,
   seerrCommand,
   seerrMounts,
   splitAddress,
@@ -25,7 +31,11 @@ export const main = sdk.setupMain(async ({ effects }) => {
   }
 
   const store = await storeJson
-    .read((s) => ({ smtp: s.smtp, remoteJellyfin: s.remoteJellyfin }))
+    .read((s) => ({
+      smtp: s.smtp,
+      remoteJellyfin: s.remoteJellyfin,
+      arrServers: s.arrServers,
+    }))
     .const(effects)
   const local = store?.remoteJellyfin
     ? null
@@ -44,12 +54,61 @@ export const main = sdk.setupMain(async ({ effects }) => {
 
   const ca = await storedRootCa()
 
+  let mounts = seerrMounts
+  const arrAddresses: [ArrId, number, string][] = []
+  for (const id of arrIds) {
+    const serverId = store?.arrServers[id]
+    // An app that isn't installed has no volume to mount.
+    const address =
+      serverId != null ? await arrBridgeAddress(effects, id).const() : null
+    if (serverId == null || !address) continue
+    mounts = mountArr(mounts, id)
+    arrAddresses.push([id, serverId, address])
+  }
+
   const seerrSub = sdk.SubContainer.of(
     effects,
     { imageId: 'seerr' },
-    seerrMounts,
+    mounts,
     'seerr-sub',
   )
+
+  const fresh = new Map<ArrId, { serverId: number; target: object }>()
+  for (const [id, serverId, address] of arrAddresses) {
+    // Radarr and Sonarr publish their address before their key during init.
+    const apiKey = await readFile(
+      `${await seerrSub.rootfs}${arrKeyFile(id)}`,
+      'utf8',
+    ).catch((e) => console.warn(`Could not read ${id}'s API key: ${e}`))
+    if (!apiKey) continue
+    const { ip, port } = splitAddress(address)
+    fresh.set(id, {
+      serverId,
+      target: {
+        hostname: ip,
+        port,
+        apiKey: apiKey.trim(),
+        useSsl: false,
+        baseUrl: '',
+      },
+    })
+  }
+  const refresh = <S extends { id: number }>(id: ArrId, servers?: S[]) =>
+    servers?.map((server) =>
+      server.id === fresh.get(id)?.serverId
+        ? { ...server, ...fresh.get(id)!.target }
+        : server,
+    )
+  if (fresh.size)
+    await settingsJson.update(
+      effects,
+      (s) =>
+        s && {
+          ...s,
+          radarr: refresh('radarr', s.radarr),
+          sonarr: refresh('sonarr', s.sonarr),
+        },
+    )
 
   const daemons = sdk.Daemons.of(effects)
     .addOneshot('chown', {

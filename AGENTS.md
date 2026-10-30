@@ -10,4 +10,5 @@ bare clone with no workspace, the full guide is at <https://docs.start9.com/pack
 - **Keep Seerr's setup wizard unreachable.** Connect Jellyfin runs Seerr bound to `127.0.0.1` in a temporary container, and the critical task keeps the service stopped until `public.initialized` is true. Whoever completes the wizard becomes the owner.
 - **Start Seerr as `node dist/index.js`, never `npm start`.** Killing a spawned process kills only that process, so Connect Jellyfin's temporary Seerr would outlive npm.
 - **Set `NODE_EXTRA_CA_CERTS` on Connect Jellyfin's temporary Seerr as well as on the daemon.** The action's own address check trusts the pasted root CA directly, so a temporary Seerr without the variable passes that check and then fails to sign in.
+- **Change `settings.json`'s `radarr` and `sonarr` lists with `settingsJson.update`, never `merge`.** `merge` unions arrays, so it adds a second copy of a server instead of replacing it.
 - **Keep the Root CA a pasted text field, never `Value.file`.** StartOS action forms submit a picked file as `{}`, so a file field fails validation every time (start-technologies#3585).
