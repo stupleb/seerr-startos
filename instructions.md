@@ -2,7 +2,7 @@
 
 ## Documentation
 
-- [Using Seerr](https://docs.seerr.dev/using-seerr/*) — the upstream guide to Seerr's settings, users, requests and notification agents.
+- [Using Seerr](https://github.com/seerr-team/seerr/tree/develop/docs/using-seerr) — the upstream guide to Seerr's settings, users, requests and notification agents.
 
 ## What you get on StartOS
 

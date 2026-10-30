@@ -151,7 +151,7 @@ A restore brings back the owner, users, requests, settings and the stored root C
 5. Libraries added to Jellyfin after setup stay off until synced and switched on under **Settings → Jellyfin**.
 6. The Jellyfin server and the owner are fixed once **Connect Jellyfin** succeeds. Seerr's users are tied to that server's user IDs, so moving to another Jellyfin server means starting Seerr over. Only the address and root CA of Jellyfin on another server can change, with **Update Jellyfin Address**; Seerr's own **Settings → Jellyfin** form accepts a different server without checking.
 7. Jellyfin on another server can't be given by a `.local` name or a Tor address.
-8. The version of Jellyfin on another server isn't checked. The dependency on this server requires 10.11.7 or later.
+8. The version of Jellyfin on another server isn't checked; only Jellyfin on this server is held to the dependency's version range.
 
 ---
 
