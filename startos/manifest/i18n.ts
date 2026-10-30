@@ -11,15 +11,15 @@ export const short = {
 
 export const long = {
   en_US:
-    'Seerr is a request catalogue for your Jellyfin server. Family and friends browse every movie and TV show on TMDB, ask for the ones they want, and you are notified to approve them. A request is marked available once the title appears in your Jellyfin library.',
+    'Seerr is a request catalogue for your Jellyfin server. Family and friends browse every movie and TV show on TMDB, ask for the ones they want, and you are notified to approve them. Approved requests can go to Radarr and Sonarr on this server to be downloaded. A request is marked available once the title appears in your Jellyfin library.',
   es_ES:
-    'Seerr es un catálogo de peticiones para tu servidor Jellyfin. Familiares y amigos exploran todas las películas y series de TMDB, piden las que quieren y tú recibes un aviso para aprobarlas. Una petición se marca como disponible cuando el título aparece en tu biblioteca de Jellyfin.',
+    'Seerr es un catálogo de peticiones para tu servidor Jellyfin. Familiares y amigos exploran todas las películas y series de TMDB, piden las que quieren y tú recibes un aviso para aprobarlas. Las peticiones aprobadas pueden ir a Radarr y Sonarr en este servidor para descargarse. Una petición se marca como disponible cuando el título aparece en tu biblioteca de Jellyfin.',
   de_DE:
-    'Seerr ist ein Anfragekatalog für deinen Jellyfin-Server. Familie und Freunde durchsuchen alle Filme und Serien auf TMDB, fragen die gewünschten an, und du wirst benachrichtigt, um sie zu genehmigen. Eine Anfrage gilt als verfügbar, sobald der Titel in deiner Jellyfin-Bibliothek erscheint.',
+    'Seerr ist ein Anfragekatalog für deinen Jellyfin-Server. Familie und Freunde durchsuchen alle Filme und Serien auf TMDB, fragen die gewünschten an, und du wirst benachrichtigt, um sie zu genehmigen. Genehmigte Anfragen können zum Herunterladen an Radarr und Sonarr auf diesem Server gehen. Eine Anfrage gilt als verfügbar, sobald der Titel in deiner Jellyfin-Bibliothek erscheint.',
   pl_PL:
-    'Seerr to katalog próśb dla Twojego serwera Jellyfin. Rodzina i znajomi przeglądają wszystkie filmy i seriale z TMDB, proszą o te, które chcą, a Ty dostajesz powiadomienie, by je zatwierdzić. Prośba jest oznaczana jako dostępna, gdy tytuł pojawi się w Twojej bibliotece Jellyfin.',
+    'Seerr to katalog próśb dla Twojego serwera Jellyfin. Rodzina i znajomi przeglądają wszystkie filmy i seriale z TMDB, proszą o te, które chcą, a Ty dostajesz powiadomienie, by je zatwierdzić. Zatwierdzone prośby mogą trafiać do Radarr i Sonarr na tym serwerze, które je pobiorą. Prośba jest oznaczana jako dostępna, gdy tytuł pojawi się w Twojej bibliotece Jellyfin.',
   fr_FR:
-    'Seerr est un catalogue de demandes pour votre serveur Jellyfin. Votre famille et vos amis parcourent tous les films et séries de TMDB, demandent ceux qu’ils veulent, et vous êtes averti pour les approuver. Une demande est marquée disponible dès que le titre apparaît dans votre bibliothèque Jellyfin.',
+    'Seerr est un catalogue de demandes pour votre serveur Jellyfin. Votre famille et vos amis parcourent tous les films et séries de TMDB, demandent ceux qu’ils veulent, et vous êtes averti pour les approuver. Les demandes approuvées peuvent être envoyées à Radarr et Sonarr sur ce serveur pour être téléchargées. Une demande est marquée disponible dès que le titre apparaît dans votre bibliothèque Jellyfin.',
 }
 
 export const jellyfinDescription = {
