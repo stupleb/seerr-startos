@@ -42,3 +42,19 @@ export const ntfyDescription = {
   pl_PL: 'Opcjonalnie: powiadomienia push o nowych prośbach',
   fr_FR: 'Facultatif : notifications push des nouvelles demandes',
 }
+
+export const radarrDescription = {
+  en_US: 'Optional: Seerr sends approved movie requests to Radarr',
+  es_ES: 'Opcional: Seerr envía a Radarr las peticiones de películas aprobadas',
+  de_DE: 'Optional: Seerr schickt genehmigte Filmanfragen an Radarr',
+  pl_PL: 'Opcjonalnie: Seerr wysyła zatwierdzone prośby o filmy do Radarr',
+  fr_FR: 'Facultatif : Seerr envoie à Radarr les demandes de films approuvées',
+}
+
+export const sonarrDescription = {
+  en_US: 'Optional: Seerr sends approved TV requests to Sonarr',
+  es_ES: 'Opcional: Seerr envía a Sonarr las peticiones de series aprobadas',
+  de_DE: 'Optional: Seerr schickt genehmigte Serienanfragen an Sonarr',
+  pl_PL: 'Opcjonalnie: Seerr wysyła zatwierdzone prośby o seriale do Sonarr',
+  fr_FR: 'Facultatif : Seerr envoie à Sonarr les demandes de séries approuvées',
+}

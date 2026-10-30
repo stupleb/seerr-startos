@@ -1,5 +1,15 @@
 import { SmtpSelection, T } from '@start9labs/start-sdk'
 import { uiPort as jellyfinPort } from 'jellyfin-startos/startos/utils'
+import type { manifest as radarrManifest } from 'radarr-startos/startos/manifest'
+import {
+  uiHostId as radarrHostId,
+  uiPort as radarrPort,
+} from 'radarr-startos/startos/utils'
+import type { manifest as sonarrManifest } from 'sonarr-startos/startos/manifest'
+import {
+  uiHostId as sonarrHostId,
+  uiPort as sonarrPort,
+} from 'sonarr-startos/startos/utils'
 import { X509Certificate } from 'node:crypto'
 import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
@@ -19,6 +29,24 @@ export const JELLYFIN_ID = 'jellyfin'
 export const jellyfinVersionRange = '>=10.11.7:0'
 export const NTFY_ID = 'ntfy'
 export const ntfyVersionRange = '>=2.26.3:2'
+
+export const arrs = {
+  radarr: {
+    name: 'Radarr',
+    hostId: radarrHostId,
+    port: radarrPort,
+    versionRange: '>=6.4.4.10685:0',
+  },
+  sonarr: {
+    name: 'Sonarr',
+    hostId: sonarrHostId,
+    port: sonarrPort,
+    versionRange: '>=4.0.20.3014:0',
+  },
+} as const
+export type ArrId = keyof typeof arrs
+export const arrIds = Object.keys(arrs) as ArrId[]
+export const arrKeyFile = (id: ArrId) => `/mnt/${id}/api-key`
 
 export const jellyfinCaFile = 'jellyfin-ca.crt'
 
@@ -47,6 +75,36 @@ export function jellyfinBridgeAddress(effects: T.Effects) {
     internalPort: jellyfinPort,
     ssl: false,
   })
+}
+
+export function arrBridgeAddress(effects: T.Effects, id: ArrId) {
+  return sdk.host.getBridgeAddress(effects, {
+    packageId: id,
+    hostId: arrs[id].hostId,
+    internalPort: arrs[id].port,
+    ssl: false,
+  })
+}
+
+export function mountArr(mounts: typeof seerrMounts, id: ArrId) {
+  return mounts.mountDependency<typeof radarrManifest | typeof sonarrManifest>({
+    dependencyId: id,
+    volumeId: 'startos',
+    subpath: 'share',
+    mountpoint: `/mnt/${id}`,
+    readonly: true,
+  })
+}
+
+export async function readArrKey(effects: T.Effects, id: ArrId) {
+  return sdk.SubContainer.withTemp(
+    effects,
+    { imageId: 'seerr' },
+    mountArr(sdk.Mounts.of(), id),
+    `seerr-${id}-key`,
+    async (sub) =>
+      (await readFile(`${sub.rootfs}${arrKeyFile(id)}`, 'utf8')).trim(),
+  )
 }
 
 export function splitAddress(address: string) {

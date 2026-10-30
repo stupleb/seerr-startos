@@ -7,5 +7,11 @@ export const storeJson = FileHelper.json(
     smtp: smtpShape,
     ntfyTopic: z.string().nullable().catch(null),
     remoteJellyfin: z.boolean().catch(false),
+    arrServers: z
+      .looseObject({
+        radarr: z.number().nullable().catch(null),
+        sonarr: z.number().nullable().catch(null),
+      })
+      .catch({ radarr: null, sonarr: null }),
   }),
 )

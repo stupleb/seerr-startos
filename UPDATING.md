@@ -21,7 +21,7 @@ Confirm the tag exists for `linux/amd64` and `linux/arm64` before pinning it.
    git -C <seerr clone> diff <old>..<new> -- Dockerfile package.json \
      server/routes/auth.ts server/routes/settings/index.ts server/routes/settings/notifications.ts \
      server/lib/settings/index.ts server/middleware/auth.ts server/constants server/api/jellyfin.ts \
-     server/utils/getHostname.ts
+     server/utils/getHostname.ts server/routes/settings/radarr.ts server/routes/settings/sonarr.ts
    ```
 
    - The `start` script in `package.json` must still run `node dist/index.js` from `/app`, and `HOST`/`PORT` must still pick the listen address.
@@ -30,6 +30,7 @@ Confirm the tag exists for `linux/amd64` and `linux/arm64` before pinning it.
    - Uninstall depends on Jellyfin's `DELETE /Auth/Keys/{key}` accepting the key itself as the `MediaBrowser Token`. The remote checks in **Connect Jellyfin**, **Update Jellyfin Address** and the `jellyfin` health check depend on Jellyfin's unauthenticated `GET /System/Info/Public` returning an `Id` equal to the `jellyfin.serverId` Seerr records at setup.
    - `jellyfinUrl()` in `startos/utils.ts` must build the same address from `settings.json` as Seerr's `getHostname()`.
    - Connect and Disconnect ntfy depend on `GET`/`POST /settings/notifications/ntfy` replacing the whole agent, and on the ntfy option names `url`, `topic`, `authMethodToken`, `token`, `authMethodUsernamePassword`.
+   - Connect Radarr and Sonarr depends on `GET`/`POST /settings/radarr` and `/settings/sonarr` returning servers with `id`, `isDefault` and `is4k`, on `POST` accepting the fields `connect()` in `startos/actions/connectArrs.ts` sends and returning the new server's `id`, and on `DELETE /settings/{radarr,sonarr}/:id`. `main.ts` depends on each `radarr`/`sonarr` entry in `settings.json` keeping `id`, `hostname`, `port`, `apiKey`, `useSsl` and `baseUrl`.
    - `startos/fileModels/settings.json.ts` depends on the `settings.json` keys it models, including the email agent's option names.
 
-4. Build, install over an existing instance, and check that it starts healthy, a Jellyfin sign-in works, a request reaches ntfy, and **Configure SMTP** still delivers a test email. For a change to the setup or Jellyfin routes, also set up a fresh install with Jellyfin on another server and run **Update Jellyfin Address** on it.
+4. Build, install over an existing instance, and check that it starts healthy, a Jellyfin sign-in works, a request reaches ntfy, an approved movie request reaches Radarr and a TV request reaches Sonarr, and **Configure SMTP** still delivers a test email. For a change to the setup or Jellyfin routes, also set up a fresh install with Jellyfin on another server and run **Update Jellyfin Address** on it.
