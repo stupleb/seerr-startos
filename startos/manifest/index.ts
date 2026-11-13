@@ -13,7 +13,7 @@ export const manifest = setupManifest({
   volumes: ['main', 'startos'],
   images: {
     seerr: {
-      source: { dockerTag: 'ghcr.io/seerr-team/seerr:v3.5.1' },
+      source: { dockerTag: 'ghcr.io/seerr-team/seerr:v3.5.2' },
       arch: ['x86_64', 'aarch64'],
     },
   },
