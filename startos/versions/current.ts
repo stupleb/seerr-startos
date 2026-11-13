@@ -1,18 +1,18 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '3.5.1:1',
+  version: '3.5.2:0',
   releaseNotes: {
     en_US:
-      'New Connect Radarr and Sonarr action sends approved requests to Radarr and Sonarr on this server.',
+      'Updated Seerr to 3.5.2, which fixes three security vulnerabilities. Requires StartOS 0.4.2 or later. Full release notes: https://github.com/seerr-team/seerr/releases/tag/v3.5.2',
     es_ES:
-      'La nueva acción Conectar Radarr y Sonarr envía las peticiones aprobadas a Radarr y Sonarr en este servidor.',
+      'Seerr actualizado a 3.5.2, que corrige tres vulnerabilidades de seguridad. Requiere StartOS 0.4.2 o posterior. Notas de la versión completas: https://github.com/seerr-team/seerr/releases/tag/v3.5.2',
     de_DE:
-      'Die neue Aktion Radarr und Sonarr verbinden schickt genehmigte Anfragen an Radarr und Sonarr auf diesem Server.',
+      'Seerr auf 3.5.2 aktualisiert. Behebt drei Sicherheitslücken. Erfordert StartOS 0.4.2 oder neuer. Vollständige Versionshinweise: https://github.com/seerr-team/seerr/releases/tag/v3.5.2',
     pl_PL:
-      'Nowa akcja Połącz Radarr i Sonarr wysyła zatwierdzone prośby do Radarr i Sonarr na tym serwerze.',
+      'Zaktualizowano Seerr do 3.5.2, który naprawia trzy luki bezpieczeństwa. Wymaga StartOS 0.4.2 lub nowszego. Pełne informacje o wydaniu: https://github.com/seerr-team/seerr/releases/tag/v3.5.2',
     fr_FR:
-      'La nouvelle action Connecter Radarr et Sonarr envoie les demandes approuvées à Radarr et Sonarr sur ce serveur.',
+      'Seerr mis à jour vers 3.5.2, qui corrige trois failles de sécurité. Nécessite StartOS 0.4.2 ou une version ultérieure. Notes de version complètes : https://github.com/seerr-team/seerr/releases/tag/v3.5.2',
   },
   migrations: {
     up: async ({ effects }) => {},
